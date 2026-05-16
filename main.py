@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 import json
 import os
 
@@ -36,9 +37,16 @@ def categorise_transaction(df):
         lowered_keywords = [keyword.lower().strip() for keyword in keywords]
         for idx, row in df.iterrows():
             details = row["Narration"].lower().strip()
-            details = details[:10]
-            if details in lowered_keywords:
+
+            #matches = list(filter(lambda x: details in x, lowered_keywords))
+
+            matches = [item for item in lowered_keywords if item in details]
+            if matches is not None and len(matches) > 0:
                 df.at[idx, "Category"] = category
+
+            # details = details[:10]
+            # if details in lowered_keywords:
+            #     df.at[idx, "Category"] = category
     return df
 
 
@@ -50,7 +58,7 @@ def load_transactions(file):
 #       st.write(df)
         df["Amount"] = df["Balance"]
 #        df["Deposit"] = df["Credit"]
-        df["Date"] = pd.to_datetime(df["Date"], format="%d/%m/%Y")
+        df["Date"] = pd.to_datetime(df["Transaction Date"], format="%d/%m/%Y")
         return categorise_transaction(df)
     except Exception as e:
         st.error(f"Error processing file: {str(e)}")
@@ -90,7 +98,7 @@ def main():
                     if new_category not in st.session_state.categories:
                         st.session_state.categories[new_category] = []
                         save_categories()
-                        st.rerun
+                        st.rerun()
 
                 st.subheader("Your Expenses")
                 edited_df = st.data_editor(
@@ -134,11 +142,11 @@ def main():
             with tab2:
                 st.write(credits_df)
 
-            if add_button and new_category:
-                if new_category not in st.session_state.categories:
-                    st.session_state.categories[new_category] = []
-                    save_categories()
-                    st.rerun()
+            # if add_button and new_category:
+            #     if new_category not in st.session_state.categories:
+            #         st.session_state.categories[new_category] = []
+            #          save_categories()
+            #         st.rerun()
 
 
 main()
