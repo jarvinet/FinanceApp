@@ -1,7 +1,39 @@
 {
     "Uncategorised": [],
-    "kids weekly": ["kids week"],
-    "Water": ["Sydney Water"],
-    "GYM": ["HORNSBY GYM"],
-    "Internet":["OPTUS BILLING"]
+    "kids weekly": [
+        "kids week"
+    ],
+    "Water": [
+        "Sydney Water"
+    ],
+    "GYM": [
+        "HORNSBY GYM"
+    ],
+    "Internet": [
+        "OPTUS BILLING",
+        "Superloop",
+        "DYN*DYN.CO",
+        "Name.com",
+        "AMAZON WEB"
+    ],
+    "Gas": [
+        "AGL RETAIL"
+    ],
+    "Rates": [
+        "HORNSBY SH"
+    ],
+    "Food": [
+        "YOUFOODZ A",
+        "SUPAMART",
+        "CRUST - HO",
+        "Dominos Es",
+        "To Country",
+        "Subway Pen"
+    ],
+    "Car": [],
+    "Naomi": [
+        "To Naomi B"
+    ],
+    "Phone": [],
+    "Health": []
 }

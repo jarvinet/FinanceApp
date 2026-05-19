@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_dynamic_filters import DynamicFilters
 import pandas as pd
 import plotly.express as px
 import json
@@ -23,7 +24,7 @@ if os.path.exists(category_file):
 def save_categories():
     # take categories created and put into file
     with open(category_file, "w") as f:
-        json.dump(st.session_state.categories, f)
+        json.dump(st.session_state.categories, f, indent=4)
 
 
 def categorise_transaction(df):
@@ -88,6 +89,7 @@ def main():
             credits_df = df.loc[df["Credit"].notna()].copy()
             # make a spare copy of the debits df so we can have one safe, one editable
             st.session_state.debits_df = debits_df.copy()
+            st.session_state.filtered_debits_df = st.session_state.debits_df
 
             tab1, tab2 = st.tabs(["Expenses (Debits)", "Payments (Credits)"])
             with tab1:
@@ -100,9 +102,21 @@ def main():
                         save_categories()
                         st.rerun()
 
+                st.sidebar.header("Filters")
+                with st.sidebar.form("filter_form"):
+                    filter_start_date = st.date_input("Start Date (DD/MM/YYYY)", format="DD/MM/YYYY")
+                    filter_end_date = st.date_input("End Date (DD/MM/YYYY)", format="DD/MM/YYYY")
+                    filter_apply_button = st.form_submit_button("Apply Filter")
+                    if filter_apply_button:
+                        # Perform filtering if filters are set
+                        if filter_start_date:
+                            st.caption(f'Filtering by start date: :green[{filter_start_date}]')
+                            #tickets_by_month = tickets_by_month[tickets_by_month['ViolationCode'] == violation_code]
+                            st.session_state.filtered_debits_df = debits_df.loc[(debits_df['Date'].dt.date >= filter_start_date) & (debits_df['Date'].dt.date <= filter_end_date)]
+
                 st.subheader("Your Expenses")
                 edited_df = st.data_editor(
-                    st.session_state.debits_df[["Date", "Narration", "Debit", "Category"]],
+                    st.session_state.filtered_debits_df[["Date", "Narration", "Debit", "Category"]],
                     column_config={
                         "Date": st.column_config.DateColumn("Date", format="DD/MM/YYYY"),
                         "Debit": st.column_config.NumberColumn("Debit", format="%.2f AUD"),
@@ -112,9 +126,17 @@ def main():
                         )
                     },
                     hide_index=True,
-                    use_container_width=True,
+                    width="stretch",
                     key="category_editor"
                 )
+
+                # Initialize with the dataframe and columns to filter
+                #dynamic_filters = DynamicFilters(df, filters=['Date', 'Category'])
+                # Display filters in the sidebar
+                #dynamic_filters.display_filters(location='sidebar')
+                # Display the resulting filtered dataframe
+                #dynamic_filters.display_df()
+
 
                 save_button = st.button("Apply changes", type="primary")
                 if save_button:
@@ -136,7 +158,7 @@ def main():
                         "Debit": st.column_config.NumberColumn("Debit", format="%.2f AUD")
                     },
                     hide_index=True,
-                    use_container_width=True,
+                    width='stretch'
                 )
 
             with tab2:
