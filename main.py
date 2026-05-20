@@ -106,13 +106,20 @@ def main():
                 with st.sidebar.form("filter_form"):
                     filter_start_date = st.date_input("Start Date (DD/MM/YYYY)", format="DD/MM/YYYY")
                     filter_end_date = st.date_input("End Date (DD/MM/YYYY)", format="DD/MM/YYYY")
+                    #filter_category = st.selectbox("Category", ["Any", "Uncategorised", "kids weekly"])
+                    filter_category = st.selectbox("Category", ["Any"] + list(st.session_state.categories))
                     filter_apply_button = st.form_submit_button("Apply Filter")
                     if filter_apply_button:
                         # Perform filtering if filters are set
-                        if filter_start_date:
-                            st.caption(f'Filtering by start date: :green[{filter_start_date}]')
-                            #tickets_by_month = tickets_by_month[tickets_by_month['ViolationCode'] == violation_code]
-                            st.session_state.filtered_debits_df = debits_df.loc[(debits_df['Date'].dt.date >= filter_start_date) & (debits_df['Date'].dt.date <= filter_end_date)]
+                        st.caption(f'Filtering by start date: :green[{filter_start_date}]')
+                        #tickets_by_month = tickets_by_month[tickets_by_month['ViolationCode'] == violation_code]
+                        if filter_category == "Any":
+                            st.session_state.filtered_debits_df = debits_df.loc[(debits_df['Date'].dt.date >= filter_start_date) &
+                                                                                (debits_df['Date'].dt.date <= filter_end_date)]
+                        else:
+                            st.session_state.filtered_debits_df = debits_df.loc[(debits_df['Date'].dt.date >= filter_start_date) &
+                                                                                (debits_df['Date'].dt.date <= filter_end_date) &
+                                                                                (debits_df['Category'] == filter_category)]
 
                 st.subheader("Your Expenses")
                 edited_df = st.data_editor(
