@@ -4,6 +4,7 @@ import pandas as pd
 import plotly.express as px
 import json
 import os
+from datetime import datetime
 
 st.set_page_config(page_title="Emergency Finance App", layout="wide")
 
@@ -58,13 +59,13 @@ def load_transactions(file):
 #       df.fillna(0.0, inplace=True)
 #       st.write(df)
         df["Amount"] = df["Balance"]
-#        df["Deposit"] = df["Credit"]
+        df["month_name"] = pd.to_datetime(df["Transaction Date"], format="%d/%m/%Y").dt.month_name()
+        df["year"] = pd.to_datetime(df["Transaction Date"], format="%d/%m/%Y").dt.year
         df["Date"] = pd.to_datetime(df["Transaction Date"], format="%d/%m/%Y")
         return categorise_transaction(df)
     except Exception as e:
         st.error(f"Error processing file: {str(e)}")
         return None
-
 
 def add_keyword_to_category(category, keyword):
     keyword = keyword.strip()
@@ -74,7 +75,6 @@ def add_keyword_to_category(category, keyword):
         save_categories()
         return True
     return False
-
 
 def main():
     st.title("JJs Budget Dashboard")
@@ -123,9 +123,11 @@ def main():
 
                 st.subheader("Your Expenses")
                 edited_df = st.data_editor(
-                    st.session_state.filtered_debits_df[["Date", "Narration", "Debit", "Category"]],
+                    st.session_state.filtered_debits_df[["Date", "month_name", "year", "Narration", "Debit", "Category"]],
                     column_config={
                         "Date": st.column_config.DateColumn("Date", format="DD/MM/YYYY"),
+                        "month_name": st.column_config.Column("month_name"),
+                        "year": st.column_config.Column("year"),
                         "Debit": st.column_config.NumberColumn("Debit", format="%.2f AUD"),
                         "Category": st.column_config.SelectboxColumn(
                             "Category",
@@ -157,7 +159,7 @@ def main():
                         add_keyword_to_category(new_category, details)
 
                 st.subheader("Expense Summary")
-                category_totals = st.session_state.debits_df.groupby("Category")["Debit"].sum().reset_index()
+                category_totals = st.session_state.filtered_debits_df.groupby("Category")["Debit"].sum().reset_index()
                 category_totals = category_totals.sort_values("Debit", ascending=False)
                 st.dataframe(
                     category_totals,
@@ -168,14 +170,22 @@ def main():
                     width='stretch'
                 )
 
+                pivot_df = pd.crosstab(
+                    index=df["Category"],
+                    columns=df["month_name"],
+                    values=df["Debit"],
+                    aggfunc="sum"
+                ).fillna(0)  # Replaces any empty combinations with 0
+                st.write("### Grouped Matrix (Summed)")
+
+                custom_column_order = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+                # Reorder the rows to match your list
+                ordered_df = pivot_df.reindex(columns=custom_column_order)
+
+                st.dataframe(ordered_df, width='stretch', height=1000)
+
             with tab2:
                 st.write(credits_df)
-
-            # if add_button and new_category:
-            #     if new_category not in st.session_state.categories:
-            #         st.session_state.categories[new_category] = []
-            #          save_categories()
-            #         st.rerun()
-
 
 main()

@@ -1,39 +1,73 @@
 {
     "Uncategorised": [],
-    "kids weekly": [
-        "kids week"
-    ],
-    "Water": [
-        "Sydney Water"
-    ],
-    "GYM": [
-        "HORNSBY GYM"
-    ],
-    "Internet": [
+    "kids weekly": ["kids week"],
+
+    "House - Water": ["Sydney Water"],
+    "House - Internet": [
         "OPTUS BILLING",
         "Superloop",
         "DYN*DYN.CO",
         "Name.com",
-        "AMAZON WEB"
+        "AMAZON WEB",
+        "DuoCircle"
     ],
-    "Gas": [
-        "AGL RETAIL"
-    ],
-    "Rates": [
-        "HORNSBY SH"
-    ],
+    "House - Gas": ["AGL RETAIL"],
+    "House - Rates": ["HORNSBY SHIRE"],
+    "House - Electricity": ["SUMO"],
+    "House - Strata": ["strata"],
+    "House - Loan": ["AUTHORITY TO WESTPAC BANKCORP"],
+    "House - Cleaning": ["Naomi B"],
+    "House - Misc": ["Sterling Pest Control", "BUNNINGS", "POSSUM BUSTERS", "Pool"],
+
     "Food": [
-        "YOUFOODZ A",
+        "YOUFOODZ",
+        "HELLOFRESH",
         "SUPAMART",
-        "CRUST - HO",
-        "Dominos Es",
-        "To Country",
-        "Subway Pen"
+        "Country Meats",
+        "COUNTRYMEA",
+        "COLES",
+        "WOOLWORTHS",
+        "HARRIS FARM MARKET",
+        "HFM",
+        "ALDI"
     ],
-    "Car": [],
-    "Naomi": [
-        "To Naomi B"
+    "Food - Junk": [
+        "Sushi",
+        "Dominos",
+        "CRUST",
+        "Subway",
+        "Donalds",
+        "ISIAM",
+        "OPORTO",
+        "Pizza",
+        "EzyMart",
+        "BBIMPASTO",
+        "Roll'd",
+        "7-ELEVEN",
+        "JLAND ST FOOD",
+        "IMPASTO & EATERY"
     ],
-    "Phone": [],
-    "Health": []
+
+    "Car - Petrol": ["PETROLEUM", "Reddy", "AMPOL", "BP NORMANHURST", "BP EXP"],
+    "Car - Insurance": ["YOUI", "NRMA", "GIO"],
+    "Car - Service": ["REPCO", "AUTO", "WESTLEIGH SERVICE", "ELITE MOTOR"],
+
+    "Phone": ["Amaysim"],
+    "Games": ["Nintendo", "STEAM", "ROBLOX", "RBLX", "Playstation"],
+
+    "Amazon": ["AMAZON"],
+    "Streaming - PRIME": ["PRIME"],
+    "Streaming - Stan": ["STAN"],
+    "Streaming - YouTube": ["YouTube"],
+    "Streaming - BINGE": ["BINGE"],
+    "Streaming - DISNEY": ["DISNEY"],
+
+    "Family": ["JULIA S"],
+    "School": ["Loreto","School EasyPay"],
+    "Accountant": ["Smith & Young"],
+    "Clothes": ["Uniqlo", "MAURITZ", "COTTON", "SUZANNE GRAE"],
+
+    "Health": ["CANCER", "HEALTH", "TENNAKOON  SHANDITH"],
+    "Health - GYM": ["HORNSBY GYM", "PCYC"],
+    "Health - Medicine": ["MEDICAL", "PHARMACY"]
 }
